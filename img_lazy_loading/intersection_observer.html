@@ -5,8 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이미지 지연 로딩(Intersection Observer)</title>
+    <style>
+        img {
+            display: block;
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            const imgs = document.querySelectorAll('img');  
+
+            const option = {
+                root: null, // default browser viewport
+                threshold: 0.5 
+            };
+
+            const callback = function(entries, Observer) {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        Observer.unobserve(entry.target);
+                        entry.target.src = entry.target.dataset.src;
+
+                    }
+                });
+            }
+
+            let observer = new IntersectionObserver(callback, option);
+
+            for(let i = 0; i < imgs.length; i++) {
+                observer.observe(imgs[i]);
+            }
+        }
+    </script>
 </head>
 <body>
-    
+    <img data-src="./images/img_1.jpg" alt="배경화면"/>
+    <img data-src="./images/img_2.jpg" alt="배경화면"/>
+    <img data-src="./images/img_3.jpg" alt="배경화면"/>
+    <img data-src="./images/img_4.jpg" alt="배경화면"/>
+    <img data-src="./images/img_5.jpg" alt="배경화면"/>
+    <img data-src="./images/img_6.jpg" alt="배경화면"/>
 </body>
 </html>
